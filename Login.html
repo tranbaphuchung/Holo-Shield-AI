@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In | Holo Shield AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0c1c31;
+      --panel: rgba(9, 22, 40, 0.82);
+      --panel-strong: rgba(12, 29, 52, 0.98);
+      --line: rgba(148, 203, 255, 0.18);
+      --text: #eaf4ff;
+      --muted: #93adc8;
+      --accent: #75f6e7;
+      --accent-strong: #25c1ff;
+      --danger: #ff866f;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+      --glow: rgba(37, 193, 255, 0.24);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(48, 109, 194, 0.22), transparent 34%),
+        radial-gradient(circle at 88% 12%, rgba(117, 246, 231, 0.14), transparent 24%),
+        linear-gradient(180deg, #08111f 0%, #07111f 38%, #0a1730 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.78), transparent 96%);
+      pointer-events: none;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page-shell {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 18px 0 30px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 26px;
+      padding: 16px 20px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(7, 17, 31, 0.72);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      flex: 0 0 52px;
+      border: 1px solid rgba(117, 246, 231, 0.2);
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.85), transparent 30%),
+        linear-gradient(135deg, rgba(117, 246, 231, 0.92), rgba(37, 193, 255, 0.88));
+      color: #04101f;
+      box-shadow:
+        0 0 24px rgba(117, 246, 231, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    }
+
+    .brand-mark svg {
+      width: 78%;
+      height: 78%;
+    }
+
+    .brand-copy {
+      display: grid;
+      gap: 3px;
+    }
+
+    .brand-copy strong {
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-copy small,
+    .topbar-note,
+    .eyebrow,
+    .login-copy p,
+    .field-hint,
+    .helper-row,
+    .disclaimer,
+    .trust-point p,
+    .status-card p,
+    .activity-list,
+    .footnote {
+      color: var(--muted);
+    }
+
+    .topbar-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .topbar-note {
+      font-size: 0.95rem;
+    }
+
+    .button,
+    .secondary-button,
+    .ghost-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .button {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+      color: #04101f;
+      font-weight: 700;
+      box-shadow: 0 14px 30px var(--glow);
+    }
+
+    .button:hover,
+    .button:focus-visible,
+    .secondary-button:hover,
+    .secondary-button:focus-visible,
+    .ghost-link:hover,
+    .ghost-link:focus-visible,
+    .toggle-button:hover,
+    .toggle-button:focus-visible {
+      transform: translateY(-2px);
+    }
+
+    .secondary-button,
+    .ghost-link {
+      border-color: rgba(117, 246, 231, 0.3);
+      background: rgba(117, 246, 231, 0.07);
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 460px) minmax(0, 1fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .login-panel,
+    .insight-panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      border-radius: 30px;
+    }
+
+    .login-panel {
+      padding: 34px;
+      background:
+        radial-gradient(circle at top left, rgba(117, 246, 231, 0.08), transparent 30%),
+        var(--panel-strong);
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    .login-copy h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      max-width: 9ch;
+    }
+
+    .login-copy p {
+      margin-top: 16px;
+      line-height: 1.7;
+      max-width: 52ch;
+    }
+
+    .info-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      background: rgba(96, 239, 255, 0.1);
+      border: 1px solid rgba(96, 239, 255, 0.3);
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .info-banner svg {
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+
+    .info-banner strong {
+      color: var(--accent);
+    }
+
+    .form-card {
+      margin-top: 28px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .field-group {
+      display: grid;
+      gap: 10px;
+    }
+
+    .field-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .field {
+      position: relative;
+    }
+
+    .field input {
+      width: 100%;
+      min-height: 56px;
+      padding: 0 18px;
+      border: 1px solid rgba(148, 203, 255, 0.18);
+      border-radius: 18px;
+      background: rgba(5, 14, 28, 0.82);
+      color: var(--text);
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .field input::placeholder {
+      color: rgba(147, 173, 200, 0.7);
+    }
+
+    .field input:focus {
+      border-color: rgba(117, 246, 231, 0.58);
+      box-shadow: 0 0 0 4px rgba(37, 193, 255, 0.12);
+      background: rgba(7, 17, 31, 0.92);
+    }
+
+    .field.has-toggle input {
+      padding-right: 112px;
+    }
+
+    .toggle-button {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(117, 246, 231, 0.24);
+      background: rgba(117, 246, 231, 0.08);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .field-hint {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .helper-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 0.94rem;
+    }
+
+    .remember {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .remember input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-strong);
+    }
+
+    .helper-row a,
+    .footnote a {
+      color: var(--accent);
+    }
+
+    .submit-row {
+      display: grid;
+      gap: 12px;
+    }
+
+    .submit-row .button,
+    .submit-row .secondary-button {
+      width: 100%;
+      min-height: 54px;
+      font-weight: 700;
+    }
+
+    .divider {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      background: rgba(148, 203, 255, 0.16);
+    }
+
+    .button-ghost {
+      width: 100%;
+      min-height: 54px;
+      padding: 0 20px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(96, 239, 255, 0.05);
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 160ms ease;
+    }
+
+    .button-ghost:hover {
+      background: rgba(96, 239, 255, 0.1);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .disclaimer {
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .insight-panel {
+      position: relative;
+      overflow: hidden;
+      padding: 32px;
+      display: grid;
+      gap: 24px;
+      background:
+        radial-gradient(circle at top right, rgba(117, 246, 231, 0.1), transparent 26%),
+        radial-gradient(circle at bottom left, rgba(37, 193, 255, 0.14), transparent 28%),
+        linear-gradient(180deg, rgba(11, 27, 47, 0.98), rgba(8, 19, 36, 0.94));
+    }
+
+    .insight-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(117, 246, 231, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(117, 246, 231, 0.07) 1px, transparent 1px);
+      background-size: 36px 36px;
+      opacity: 0.42;
+      pointer-events: none;
+    }
+
+    .insight-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .insight-heading h2 {
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      max-width: 11ch;
+      margin-bottom: 14px;
+    }
+
+    .insight-heading p {
+      max-width: 52ch;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .status-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .status-card,
+    .trust-point,
+    .activity-panel {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(7, 19, 36, 0.84);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .status-card {
+      padding: 22px;
+    }
+
+    .status-card strong {
+      display: block;
+      margin-top: 12px;
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .status-card p {
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .badge-safe {
+      color: #bff7ef;
+      background: rgba(117, 246, 231, 0.1);
+      border: 1px solid rgba(117, 246, 231, 0.28);
+    }
+
+    .badge-watch {
+      color: #ffc8bb;
+      background: rgba(255, 134, 111, 0.1);
+      border: 1px solid rgba(255, 134, 111, 0.3);
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .trust-point {
+      padding: 22px;
+    }
+
+    .trust-point h3 {
+      margin-bottom: 10px;
+      font-size: 1.12rem;
+    }
+
+    .trust-point p {
+      line-height: 1.65;
+    }
+
+    .activity-panel {
+      padding: 26px;
+    }
+
+    .activity-panel h3 {
+      font-size: 1.34rem;
+      margin-bottom: 16px;
+    }
+
+    .activity-list {
+      margin: 0;
+      padding-left: 18px;
+      line-height: 1.8;
+    }
+
+    .footnote {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      padding-top: 6px;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 1024px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .insight-heading h2,
+      .login-copy h1 {
+        max-width: none;
+      }
+
+      .trust-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page-shell {
+        width: min(100% - 20px, 1180px);
+        padding-top: 12px;
+      }
+
+      .topbar,
+      .login-panel,
+      .insight-panel,
+      .status-card,
+      .trust-point,
+      .activity-panel {
+        border-radius: 22px;
+      }
+
+      .topbar,
+      .topbar-actions,
+      .helper-row,
+      .footnote {
+        flex-wrap: wrap;
+      }
+
+      .login-panel,
+      .insight-panel {
+        padding: 22px;
+      }
+
+      .status-row {
+        grid-template-columns: 1fr;
+      }
+
+      .field.has-toggle input {
+        padding-right: 18px;
+      }
+
+      .toggle-button {
+        position: static;
+        transform: none;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" focusable="false">
+            <path d="M24 5l13 5.6v9.3c0 8.1-5 15.4-13 18.1-8-2.7-13-10-13-18.1v-9.3L24 5z" fill="currentColor" opacity="0.18"></path>
+            <path d="M24 8.4l10 4.4v7.1c0 6.3-3.8 11.9-10 14.2-6.2-2.3-10-7.9-10-14.2v-7.1L24 8.4z" fill="none" stroke="currentColor" stroke-width="2"></path>
+            <path d="M18 19c0-4.6 2.6-7.4 6-7.4s6 2.8 6 7.4v3.1c0 1.5-.6 2.9-1.8 3.9l-1.8 1.5V31h-5v-4.2l-1.6-1.3c-1.2-1-1.8-2.4-1.8-3.9V19z" fill="currentColor"></path>
+            <path d="M19.5 19.2h9" fill="none" stroke="#07111f" stroke-width="1.8" stroke-linecap="round"></path>
+            <path d="M17 33.5h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            <path d="M24 14.5v10.2" fill="none" stroke="#07111f" stroke-width="1.8" stroke-linecap="round"></path>
+            <path d="M21.6 27.6h4.8" fill="none" stroke="#07111f" stroke-width="1.8" stroke-linecap="round"></path>
+            <path d="M32 20.5c2.4.4 4 1.8 4 4.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </span>
+        <span class="brand-copy">
+          <strong>Holo Shield AI</strong>
+          <small>Defense for modern teams</small>
+        </span>
+      </a>
+
+      <div class="topbar-actions">
+        <span class="topbar-note">Secure access for scam review and alert workflows.</span>
+        <a class="ghost-link" href="index.html">Back to Home</a>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="login-panel" aria-labelledby="login-title">
+        <div class="login-copy">
+          <p class="eyebrow">Secure Login</p>
+          <h1 id="login-title">Welcome Back</h1>
+          <p>Sign in to access your scam protection dashboard</p>
+          
+          <div class="info-banner">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/></svg>
+            <span><strong>Students:</strong> Use your university email address to sign in</span>
+          </div>
+        </div>
+
+        <form class="form-card">
+          <div class="field-group">
+            <label class="field-label" for="email">Email Address</label>
+            <div class="field">
+              <input 
+                id="email" 
+                name="email" 
+                type="email" 
+                placeholder="your.name@university.edu.au" 
+                autocomplete="email" 
+                required>
+            </div>
+            <p class="field-hint">Use your student email (e.g., @sydney.edu.au, @unsw.edu.au)</p>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="password">Password</label>
+            <div class="field has-toggle">
+              <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+              <button class="toggle-button" type="button" aria-controls="password" aria-pressed="false">Show</button>
+            </div>
+          </div>
+
+          <div class="helper-row">
+            <label class="remember" for="remember-me">
+              <input id="remember-me" name="remember-me" type="checkbox">
+              <span>Remember me</span>
+            </label>
+            <a href="#" onclick="alert('Please contact support at tranbaphuchung2005@gmail.com'); return false;">Forgot password?</a>
+          </div>
+
+          <div class="submit-row">
+            <button class="button" type="submit">Sign In</button>
+          </div>
+          
+          <div class="divider">or</div>
+          
+          <button class="button button-ghost" type="button" id="quick-access-btn">
+            Quick Access (Demo Mode)
+          </button>
+
+          <p class="disclaimer">
+            <strong>Demo Mode:</strong> Click "Quick Access" to try the dashboard without signing in. 
+            Your data will be stored locally in your browser.
+          </p>
+          
+          <p class="footnote">
+            <span>New to Holo Shield AI?</span>
+            <a href="index.html#cta">Request a demo</a>
+          </p>
+        </form>
+      </section>
+
+      <section class="insight-panel" aria-label="Platform status and security overview">
+        <div class="insight-heading">
+          <p class="eyebrow">For Students</p>
+          <h2>Protect yourself from scams in Australia</h2>
+          <p>Designed specifically for international students to detect rental scams, fake job offers, phishing emails, and more.</p>
+        </div>
+
+        <div class="status-row">
+          <article class="status-card">
+            <span class="badge badge-safe">Active Protection</span>
+            <strong>24/7</strong>
+            <p>Real-time scam detection and community alerts to keep you safe.</p>
+          </article>
+
+          <article class="status-card">
+            <span class="badge badge-watch">Student Focused</span>
+            <strong>🎓</strong>
+            <p>Specialized protection for rental, job, and visa-related scams targeting students.</p>
+          </article>
+        </div>
+
+        <div class="trust-grid">
+          <article class="trust-point">
+            <h3>🔍 Instant Scanning</h3>
+            <p>Check suspicious links, emails, and messages in seconds with AI-powered analysis.</p>
+          </article>
+
+          <article class="trust-point">
+            <h3>🇦🇺 Local Support</h3>
+            <p>Australian bank contacts, police hotlines, and university support resources.</p>
+          </article>
+
+          <article class="trust-point">
+            <h3>💬 Community Help</h3>
+            <p>Share experiences and get advice from other students and moderators.</p>
+          </article>
+        </div>
+
+        <article class="activity-panel">
+          <h3>Common Student Scams</h3>
+          <ul class="activity-list">
+            <li>Fake rental properties with advance payment requests</li>
+            <li>Job offers requiring upfront fees or personal information</li>
+            <li>Phishing emails pretending to be from your university</li>
+            <li>Fake visa agents and immigration scams</li>
+            <li>ATO (tax office) impersonation calls</li>
+          </ul>
+        </article>
+
+        <div class="footnote">
+          <span>Need help getting started?</span>
+          <a href="mailto:tranbaphuchung2005@gmail.com">Contact support</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const toggleButton = document.querySelector(".toggle-button");
+    const passwordInput = document.querySelector("#password");
+
+    if (toggleButton && passwordInput) {
+      toggleButton.addEventListener("click", () => {
+        const isPassword = passwordInput.type === "password";
+        passwordInput.type = isPassword ? "text" : "password";
+        toggleButton.textContent = isPassword ? "Hide" : "Show";
+        toggleButton.setAttribute("aria-pressed", String(isPassword));
+      });
+    }
+
+    // Handle login form submission
+    const loginForm = document.querySelector("form");
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      // Simple validation
+      if (!email || !password) {
+        alert('Please fill in all fields');
+        return;
+      }
+      
+      // Store email for personalization (demo purposes)
+      localStorage.setItem('userEmail', email);
+      
+      // Show loading state
+      const submitBtn = loginForm.querySelector('.button');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Signing in...';
+      submitBtn.disabled = true;
+      
+      // Simulate login - in production, validate credentials
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 800);
+    });
+    
+    // Quick access button
+    document.getElementById('quick-access-btn').addEventListener('click', () => {
+      localStorage.setItem('userEmail', 'demo@student.edu.au');
+      window.location.href = "dashboard.html";
+    });
+  </script>
+</body>
+</html>

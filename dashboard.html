@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Holo Shield AI</title>
+  <link rel="stylesheet" href="Holo.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <div class="dashboard-shell">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" focusable="false">
+            <path d="M24 5l13 5.6v9.3c0 8.1-5 15.4-13 18.1-8-2.7-13-10-13-18.1v-9.3L24 5z" fill="currentColor" opacity="0.18"/>
+            <path d="M24 8.4l10 4.4v7.1c0 6.3-3.8 11.9-10 14.2-6.2-2.3-10-7.9-10-14.2v-7.1L24 8.4z" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </span>
+        <span class="brand-copy">
+          <strong>Holo Shield</strong>
+        </span>
+      </a>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-view="dashboard">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor" opacity="0.2"/><rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor" opacity="0.2"/><rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor" opacity="0.2"/><rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor" opacity="0.2"/></svg>
+          Dashboard
+        </button>
+        <button class="nav-item" data-view="scanner">
+          <svg viewBox="0 0 24 24"><path d="M12 3L3 5v6c0 5.25 3.91 9.73 9 11 5.09-1.27 9-5.75 9-11V5l-9-2z" fill="currentColor" opacity="0.2"/><path d="M10 11l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          Scan Link
+        </button>
+        <button class="nav-item" data-view="reports">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16v12H7l-3 3V4z" fill="currentColor" opacity="0.18"/></svg>
+          Reports
+        </button>
+        <button class="nav-item" data-view="recovery">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="currentColor" opacity="0.2"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2"/></svg>
+          Recovery Help
+        </button>
+        <button class="nav-item" data-view="evidence">
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2"/></svg>
+          Evidence Vault
+        </button>
+        <button class="nav-item" data-view="community">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="4" fill="currentColor" opacity="0.2"/><circle cx="17" cy="17" r="3" fill="currentColor" opacity="0.2"/></svg>
+          Community
+        </button>
+        <button class="nav-item" data-view="student">
+          <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="currentColor" opacity="0.2"/></svg>
+          Student Mode
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar" id="user-avatar">U</div>
+          <div>
+            <strong id="user-name">User</strong>
+            <small id="user-plan">Premium Plan</small>
+          </div>
+        </div>
+        <button class="logout-btn" id="logout-btn">
+          <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" fill="currentColor"/></svg>
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <main class="dashboard-main">
+      <!-- Dashboard Overview -->
+      <section class="view active" id="dashboard-view">
+        <div class="view-header">
+          <div>
+            <h1>Dashboard Overview</h1>
+            <p>Your scam protection summary and recent activity</p>
+          </div>
+          <button class="button" id="quick-scan-btn">Quick Scan</button>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon safe">
+              <svg viewBox="0 0 24 24"><path d="M12 2L3 5v6c0 5.25 3.91 9.73 9 11 5.09-1.27 9-5.75 9-11V5l-9-3z" fill="currentColor" opacity="0.2"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+            </div>
+            <div class="stat-content">
+              <h3 id="total-scans">0</h3>
+              <p>Total Scans</p>
+              <span class="stat-trend up">+12% this week</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon danger">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <div class="stat-content">
+              <h3 id="threats-blocked">0</h3>
+              <p>Threats Detected</p>
+              <span class="stat-trend down">-8% this week</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon warning">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16v12H7l-3 3V4z" fill="currentColor" opacity="0.18"/><path d="M8 8h8M8 12h6" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <div class="stat-content">
+              <h3 id="community-reports">0</h3>
+              <p>Community Reports</p>
+              <span class="stat-trend up">+24 today</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon info">
+              <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h12" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <div class="stat-content">
+              <h3 id="evidence-count">0</h3>
+              <p>Evidence Stored</p>
+              <span class="stat-trend neutral">Secure vault</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity & Quick Actions -->
+        <div class="dashboard-grid">
+          <!-- Recent Scans -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h2>Recent Scans</h2>
+              <button class="text-btn" data-view="scanner">View All</button>
+            </div>
+            <div id="recent-scans" class="activity-list">
+              <div class="empty-state">
+                <svg viewBox="0 0 24 24"><path d="M12 2L3 5v6c0 5.25 3.91 9.73 9 11 5.09-1.27 9-5.75 9-11V5l-9-3z" fill="currentColor" opacity="0.2"/></svg>
+                <p>No scans yet</p>
+                <small>Start by scanning a suspicious link or message</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Threat Alerts -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h2>Threat Alerts</h2>
+              <span class="badge badge-danger">Live</span>
+            </div>
+            <div class="alert-list">
+              <div class="alert-item high">
+                <div class="alert-icon">⚠️</div>
+                <div class="alert-content">
+                  <h4>New Phishing Campaign</h4>
+                  <p>Fake ATO emails targeting Australian residents</p>
+                  <span class="alert-time">2 hours ago</span>
+                </div>
+              </div>
+              <div class="alert-item medium">
+                <div class="alert-icon">🔔</div>
+                <div class="alert-content">
+                  <h4>Rental Scam Alert</h4>
+                  <p>Fake property listings in Sydney CBD area</p>
+                  <span class="alert-time">5 hours ago</span>
+                </div>
+              </div>
+              <div class="alert-item low">
+                <div class="alert-icon">ℹ️</div>
+                <div class="alert-content">
+                  <h4>Security Update</h4>
+                  <p>New scam detection patterns added</p>
+                  <span class="alert-time">1 day ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h2>Quick Actions</h2>
+            </div>
+            <div class="quick-actions">
+              <button class="action-btn" data-view="scanner">
+                <svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                <span>Scan Link</span>
+              </button>
+              <button class="action-btn" data-view="reports">
+                <svg viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke="currentColor" stroke-width="2"/></svg>
+                <span>Submit Report</span>
+              </button>
+              <button class="action-btn" data-view="recovery">
+                <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"/></svg>
+                <span>Get Help</span>
+              </button>
+              <button class="action-btn" data-view="evidence">
+                <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                <span>Add Evidence</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Protection Status -->
+          <div class="dashboard-card status-card">
+            <div class="card-header">
+              <h2>Protection Status</h2>
+              <span class="status-indicator active">Active</span>
+            </div>
+            <div class="status-content">
+              <div class="status-circle">
+                <svg viewBox="0 0 120 120">
+                  <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(96, 239, 255, 0.1)" stroke-width="8"/>
+                  <circle cx="60" cy="60" r="54" fill="none" stroke="url(#gradient)" stroke-width="8" stroke-dasharray="339.292" stroke-dashoffset="84.823" transform="rotate(-90 60 60)"/>
+                  <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#60efff;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div class="status-text">
+                  <h3>98%</h3>
+                  <p>Protected</p>
+                </div>
+              </div>
+              <div class="status-details">
+                <div class="status-item">
+                  <span class="status-dot safe"></span>
+                  <span>Real-time scanning: ON</span>
+                </div>
+                <div class="status-item">
+                  <span class="status-dot safe"></span>
+                  <span>Community alerts: ON</span>
+                </div>
+                <div class="status-item">
+                  <span class="status-dot safe"></span>
+                  <span>Database updated: 2h ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Reports -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h2>Latest Community Reports</h2>
+              <button class="text-btn" data-view="reports">View All</button>
+            </div>
+            <div id="recent-reports" class="report-list">
+              <div class="empty-state">
+                <svg viewBox="0 0 24 24"><path d="M4 4h16v12H7l-3 3V4z" fill="currentColor" opacity="0.18"/></svg>
+                <p>No reports yet</p>
+                <small>Be the first to report a scam</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Safety Tips -->
+          <div class="dashboard-card tips-card">
+            <div class="card-header">
+              <h2>🛡️ Safety Tip of the Day</h2>
+            </div>
+            <div class="tip-content">
+              <p class="tip-text" id="daily-tip">Never share your banking passwords or PINs, even if someone claims to be from your bank. Banks will never ask for this information via email, text, or phone.</p>
+              <button class="tip-btn" id="next-tip">Next Tip</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scanner View -->
+      <section class="view active" id="scanner-view">
+        <div class="view-header">
+          <h1>Scam Scanner</h1>
+          <p>Paste any suspicious link, message, or phone number to check its safety</p>
+        </div>
+
+        <div class="scanner-card">
+          <div class="input-group">
+            <textarea id="scan-input" placeholder="Paste suspicious link, message, phone number, or email here..." rows="4"></textarea>
+            <div class="scanner-actions">
+              <select id="scan-type">
+                <option value="auto">Auto Detect</option>
+                <option value="url">Website/Link</option>
+                <option value="email">Email</option>
+                <option value="phone">Phone Number</option>
+                <option value="message">Text Message</option>
+              </select>
+              <button class="button" id="scan-btn">Analyze Now</button>
+            </div>
+          </div>
+
+          <div id="scan-result" class="scan-result hidden">
+            <div class="risk-meter">
+              <div class="risk-visual">
+                <div class="risk-needle" id="risk-needle"></div>
+                <div class="risk-zones">
+                  <span class="zone-low">Low</span>
+                  <span class="zone-med">Medium</span>
+                  <span class="zone-high">High</span>
+                </div>
+              </div>
+              <div class="risk-score">
+                <h2 id="risk-level">Analyzing...</h2>
+                <p id="risk-description"></p>
+              </div>
+            </div>
+
+            <div class="threat-details">
+              <h3>Threat Analysis</h3>
+              <ul id="threat-indicators"></ul>
+            </div>
+
+            <div class="action-buttons">
+              <button class="button" id="save-report-btn">Save Report</button>
+              <button class="button button-ghost" id="recovery-btn">Get Recovery Help</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reports View -->
+      <section class="view" id="reports-view">
+        <div class="view-header">
+          <h1>Community Reports</h1>
+          <p>Browse and submit scam reports from the community</p>
+          <button class="button" id="new-report-btn">Submit New Report</button>
+        </div>
+
+        <div class="filter-bar">
+          <button class="filter-btn active" data-category="all">All</button>
+          <button class="filter-btn" data-category="phishing">Phishing</button>
+          <button class="filter-btn" data-category="fake-website">Fake Websites</button>
+          <button class="filter-btn" data-category="scam-call">Scam Calls</button>
+          <button class="filter-btn" data-category="fake-social">Fake Social Media</button>
+          <button class="filter-btn" data-category="rental">Rental Scams</button>
+          <button class="filter-btn" data-category="job">Job Scams</button>
+        </div>
+
+        <div id="reports-list" class="reports-grid"></div>
+      </section>
+
+      <!-- Recovery Help View -->
+      <section class="view" id="recovery-view">
+        <div class="view-header">
+          <h1>What Do I Do Now?</h1>
+          <p>Step-by-step recovery guidance after a scam</p>
+        </div>
+
+        <div class="recovery-wizard">
+          <div class="wizard-step">
+            <h3>Select what happened:</h3>
+            <div class="option-grid">
+              <button class="option-card" data-scenario="payment">
+                <svg viewBox="0 0 24 24"><path d="M3 6h18v12H3z" fill="currentColor" opacity="0.2"/></svg>
+                <span>I made a payment</span>
+              </button>
+              <button class="option-card" data-scenario="info">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="currentColor" opacity="0.2"/></svg>
+                <span>I shared personal info</span>
+              </button>
+              <button class="option-card" data-scenario="clicked">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor" opacity="0.2"/></svg>
+                <span>I clicked a link</span>
+              </button>
+              <button class="option-card" data-scenario="account">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="currentColor" opacity="0.2"/></svg>
+                <span>Account compromised</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="recovery-steps" class="recovery-steps hidden"></div>
+        </div>
+      </section>
+
+      <!-- Evidence Vault View -->
+      <section class="view" id="evidence-view">
+        <div class="view-header">
+          <h1>Evidence Vault</h1>
+          <p>Store and organize evidence for reporting</p>
+          <button class="button" id="add-evidence-btn">Add Evidence</button>
+        </div>
+
+        <div id="evidence-list" class="evidence-grid"></div>
+      </section>
+
+      <!-- Community View -->
+      <section class="view" id="community-view">
+        <div class="view-header">
+          <h1>Community Discussion</h1>
+          <p>Ask questions and share experiences</p>
+        </div>
+
+        <div class="chat-container">
+          <div id="chat-messages" class="chat-messages"></div>
+          <div class="chat-input-group">
+            <input type="text" id="chat-input" placeholder="Ask about a suspicious link or share your experience...">
+            <button class="button" id="send-chat-btn">Send</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Student Mode View -->
+      <section class="view" id="student-view">
+        <div class="view-header">
+          <h1>International Student Support</h1>
+          <p>Australia-specific scam protection and guidance</p>
+        </div>
+
+        <div class="student-grid">
+          <div class="info-card">
+            <h3>🇦🇺 Common Scams in Australia</h3>
+            <ul>
+              <li><strong>Rental Scams:</strong> Fake property listings, advance payment requests</li>
+              <li><strong>Job Scams:</strong> Fake job offers requiring upfront fees</li>
+              <li><strong>Visa Scams:</strong> Fake immigration agents</li>
+              <li><strong>Bank Scams:</strong> Fake ATO or bank calls</li>
+            </ul>
+          </div>
+
+          <div class="info-card">
+            <h3>📞 Australian Reporting Contacts</h3>
+            <ul>
+              <li><strong>Scamwatch:</strong> scamwatch.gov.au</li>
+              <li><strong>ReportCyber:</strong> cyber.gov.au</li>
+              <li><strong>Police:</strong> 000 (emergency) or 131 444</li>
+              <li><strong>ACCC:</strong> 1300 302 502</li>
+            </ul>
+          </div>
+
+          <div class="info-card">
+            <h3>🏦 Bank Fraud Hotlines</h3>
+            <ul>
+              <li><strong>Commonwealth Bank:</strong> 13 2221</li>
+              <li><strong>Westpac:</strong> 132 032</li>
+              <li><strong>ANZ:</strong> 13 33 50</li>
+              <li><strong>NAB:</strong> 13 22 65</li>
+            </ul>
+          </div>
+
+          <div class="info-card">
+            <h3>🎓 University Support</h3>
+            <p>Contact your university's international student office for help with:</p>
+            <ul>
+              <li>Accommodation scams</li>
+              <li>Fake tuition payment requests</li>
+              <li>Visa-related fraud</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal for New Report -->
+  <div id="report-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Submit Scam Report</h2>
+        <button class="close-modal">&times;</button>
+      </div>
+      <form id="report-form">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="report-category" required>
+            <option value="">Select category...</option>
+            <option value="phishing">Phishing Email</option>
+            <option value="fake-website">Fake Website</option>
+            <option value="scam-call">Scam Call</option>
+            <option value="fake-social">Fake Social Media</option>
+            <option value="rental">Rental Scam</option>
+            <option value="job">Job Scam</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="report-title" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="report-description" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Suspicious Content (URL, phone, email, etc.)</label>
+          <input type="text" id="report-content">
+        </div>
+        <button type="submit" class="button">Submit Report</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal for Evidence -->
+  <div id="evidence-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add Evidence</h2>
+        <button class="close-modal">&times;</button>
+      </div>
+      <form id="evidence-form">
+        <div class="form-group">
+          <label>Evidence Type</label>
+          <select id="evidence-type" required>
+            <option value="screenshot">Screenshot</option>
+            <option value="email">Email</option>
+            <option value="message">Text Message</option>
+            <option value="call-log">Call Log</option>
+            <option value="payment">Payment Receipt</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="evidence-title" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="evidence-description" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="evidence-notes" rows="2"></textarea>
+        </div>
+        <button type="submit" class="button">Save Evidence</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+</body>
+</html>
